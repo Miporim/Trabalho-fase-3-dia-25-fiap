@@ -1,10 +1,15 @@
 package com.example.smartcollector.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "usuario_seq")
@@ -17,60 +22,47 @@ public class Usuario {
     @Column(nullable = false, unique = true, length = 120)
     private String email;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String senha;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private String funcao;
+    private UsuarioRole funcao;
 
-    public Usuario() {
-    }
+    public Usuario() {}
 
-    public Usuario(Long id, String nome, String email, String senha, String funcao) {
-        this.id = id;
+    public Usuario(String nome, String email, String senha, UsuarioRole funcao) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.funcao = funcao;
     }
 
-    public Long getId() {
-        return id;
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        if (this.funcao == UsuarioRole.ADMIN)
+            return List.of(
+                    new SimpleGrantedAuthority("ROLE_ADMIN"),
+                    new SimpleGrantedAuthority("ROLE_USER")
+            );
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
-    public String getNome() {
-        return nome;
-    }
+    @Override
+    public String getPassword() { return senha; }
 
-    public String getEmail() {
-        return email;
-    }
+    @Override
+    public String getUsername() { return email; }
 
-    public String getSenha() {
-        return senha;
-    }
+    public Long getId() { return id; }
+    public String getNome() { return nome; }
+    public String getEmail() { return email; }
+    public String getSenha() { return senha; }
+    public UsuarioRole getFuncao() { return funcao; }
 
-    public String getFuncao() {
-        return funcao;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public void setFuncao(String funcao) {
-        this.funcao = funcao;
-    }
+    public void setId(Long id) { this.id = id; }
+    public void setNome(String nome) { this.nome = nome; }
+    public void setEmail(String email) { this.email = email; }
+    public void setSenha(String senha) { this.senha = senha; }
+    public void setFuncao(UsuarioRole funcao) { this.funcao = funcao; }
 }
