@@ -108,6 +108,44 @@
 			<artifactId>spring-boot-starter-webmvc-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Cucumber: implementação dos cenários BDD -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>7.27.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Integração do Cucumber com JUnit Platform -->
+		<dependency>
+			<groupId>io.cucumber</groupId>
+			<artifactId>cucumber-junit-platform-engine</artifactId>
+			<version>7.27.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Execução de suítes de teste com JUnit Platform -->
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Chamadas HTTP e validações das respostas da API -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>5.5.6</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Validação de contratos JSON com JSON Schema -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>json-schema-validator</artifactId>
+			<version>5.5.6</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
